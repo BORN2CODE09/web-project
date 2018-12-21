@@ -93,60 +93,10 @@
 					<button type="submit" style="background-color: #eec111; padding: 8px; border-radius: 20px;">Search</button>
 				</form>
 			</div>
-			
-			<div class="section_container all-cent">
-				<ul>
-					<?php
-						$conn = new mysqli("localhost","root","","watch2018");
-						if (mysqli_connect_errno()) {
-						    printf("Соединение --: %s\n", mysqli_connect_error());
-						    exit();
-						}
-						$page = $_GET["page"];
-						if($page == "" || $page == "1"){
-							$page1 = 0;
-						}
-						else{
-							$page1 = ($page*8)-8;
-						}
-						$query = "SELECT * FROM `watches-list` limit $page1,8";
-						$result = $conn->query($query);
-						if (!$result) {
-						    trigger_error('Invalid query: ' . $conn->error);
-						}
-						if ($result->num_rows > 0){
-							$cnt = 0;
-							while($row = $result->fetch_assoc()){
-								$cnt = $cnt + 1;
-								echo "<li>";
-								echo "<i>";
-								echo '<img src="'. $row["img"]. '" alt="">';
-								echo "</i>";
-								echo "<h5>". $row["name"] ."</h5>";
-								echo "<p>". $row["descr"] . "</p>";
-								echo "</li>";
-								if($cnt == 4){
-									echo "</ul>";
-									echo "</div>";
-									echo '<div class="section_container all-cent mt-all">';
-									echo "<ul>";
-									$cnt = 0;
-								}
-							}	
-							mysqli_free_result($result);
-						}
-						mysqli_close($conn);
-					 ?>			
-				</ul>
-			</div>
-		</section> 
-
-		<div class="pagination-page">
-			<ul class="pagination modal-4">
-			  <?php
-			    $conn = new mysqli("localhost","root","","watch2018");
+			<?php
+				$conn = new mysqli("localhost","root","","watch2018");
 				if (mysqli_connect_errno()) {
-				    printf("Соединение --: %s\n", mysqli_connect_error());
+				    printf("Соединение не удалось: %s\n", mysqli_connect_error());
 				    exit();
 				}
 				$query = "SELECT * FROM `watches-list`";
@@ -154,15 +104,104 @@
 				if (!$result) {
 				    trigger_error('Invalid query: ' . $conn->error);
 				}
-			  	$cou = mysqli_num_rows($result);
-			  	$a = $cou/8;
-			  	$a = ceil($a);
-			  	for ($i=1; $i<=$a; $i++){
-			  		?> <a href="items.php?page=<?php echo $i;?>"><?php echo $i?></a><?php
-			  	}
-			  ?>
+				if ($result->num_rows > 0){
+					while($row = $result->fetch_assoc()){
+						echo $row["name"];
+						echo "<br>";
+						echo $row["category"];
+					}	
+					mysqli_free_result($result);
+				}
+				mysqli_close($conn);
+			 ?>
+			<div class="section_container all-cent">
+				<ul>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>										
+				</ul>
+			</div>
+			<div class="section_container all-cent mt-all">
+				<ul>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+					<li>
+						<i>
+							<img src="img/products/GG1000-1A_small.png" alt="">
+						</i>
+						<h5>G-SHOCK GA-100A</h5>
+						<p>The most durable digital and analog-digital watches in the industry, trusted by military personnel, law enforcement, surfers and outdoor enthusiasts around the world.</p>
+					</li>
+				</ul>
+			</div>
+		</section> 
+
+		<div class="pagination-page">
+			<ul class="pagination modal-4">
+			  <li><a href="#" class="prev">
+			    <i class="fa fa-chevron-left"></i>
+			      Previous
+			    </a>
+			  </li>
+			  <li><a href="#">1</a></li>
+			  <li> <a href="#">2</a></li>
+			  <li> <a href="#">3</a></li>
+			  <li><a href="#" class="next"> Next 
+			    <i class="fa fa-chevron-right"></i>
+			  </a></li>
 			</ul>
 		</div>
+		
+
+
+
+
+
+
 		
 		<section id="contacts" class="contacts"> 
 			<div class="heading">
