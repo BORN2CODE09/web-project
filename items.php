@@ -102,6 +102,7 @@
 						    printf("Соединение --: %s\n", mysqli_connect_error());
 						    exit();
 						}
+						
 						$page = $_GET["page"];
 						if($page == "" || $page == "1"){
 							$page1 = 0;
@@ -163,13 +164,14 @@
 			  ?>
 			</ul>
 		</div>
+
 		
 		<section id="contacts" class="contacts"> 
 			<div class="heading">
 				<h1>Contacts</h1>
 			</div> 		
 			<div class="section_container">
-				<form action="action.php">
+				<form action="login.php">
 					<p>Enter Yor Name</p>
 					<input type="text">
 					<p>Enter Yor Email</p>
