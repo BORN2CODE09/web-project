@@ -32,17 +32,7 @@
 						<li><a href="delete.php">Delete Watch</a></li>
 						<li><a href="managers.php">Managers</a></li>
 						<li><a href="blackFriday.php">Black Friday</a></li>
-						<li class="click-login">
-							<a href="#autorization">Log In</a>
-							<div class="dropdown-login">
-								<form action="">
-									<input type="text" placeholder="Enter your login"> <br>
-									<input type="password" placeholder="Enter your password"> <br>
-									<input type="submit" value="Login">
-								</form>
-							</div>
-						</li>
-						<li class="clickAutor"><a href="#autorization">Sign Up</a></li>
+						<li><a href="signOut.php">Sign Out</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -53,44 +43,41 @@
 				<div class="add-admin crud">
 					<h3>Add new manager</h3>
 					<form action="managers.php" method="POST">
-						<input type="text" name="name" placeholder="Name:"> <br>
-						<input type="text" name="brand" placeholder="Login:"> <br>
-						<input type="password" name="category" placeholder="Password:"> <br>
-						<input type="text" name="privilege" placeholder="All/">
+						<input type="text" name="login" placeholder="Login:"> <br>
+						<input type="password" name="password" placeholder="Password:"> <br>
+						<input type="text" name="privilege" placeholder="Privilege:">
 						<button type="submit">Add</button>
 						<?php
+						    session_start();
 							$conn = new mysqli("localhost","root","","watch2018");
 							if (mysqli_connect_errno()) {
 							    printf("Соединение --: %s\n", mysqli_connect_error());
 							    exit();
 							}
 							$addName = "";
-							$addBrand = "";
-							$addCategory = "";
-							$addImage = "";
-							$addDescr = "";
+							$addPass = "";
+							$addPriv = "";
 
-							if (isset($_POST['name'])){
-								$addName = $_POST['name'];	
+							if ($_SESSION["priv"] == "5") {
+								if (isset($_POST['login'])){
+									$addName = $_POST['login'];
+									if (isset($_POST['password'])){
+										$addPass = $_POST['password'];
+									}
+									if (isset($_POST['privilege'])){
+										$addPriv = $_POST['privilege'];
+									}
+									
+									$query = "INSERT INTO `managers` (`login`, `password`, `accessibility`) VALUES ('$addName','$addPass','$addPriv')";
+									$result = $conn->query($query);
+									
+									if (!$result) {
+									    trigger_error('Invalid query: ' . $conn->error);
+									}
+								}
 							}
-							if (isset($_POST['brand'])){
-								$addBrand = $_POST['brand'];
-							}
-							if (isset($_POST['category'])){
-								$addCategory = $_POST['category'];
-							}
-							if (isset($_POST['image'])){
-								$addImage = $_POST['image'];
-							}
-							if (isset($_POST['descr'])){
-								$addDescr = $_POST['descr'];
-							}
-
-							$query = "INSERT INTO `watches-list`(`name`, `brand`, `category`, `img`, `descr`) VALUES ('$addName','$addBrand','$addCategory','$addImage','$addDescr')";
-							$result = $conn->query($query);
-							
-							if (!$result) {
-							    trigger_error('Invalid query: ' . $conn->error);
+							else{
+								echo '<p style="text-align: center">You are only manager! <br> You have not permission <br> for adding new managers!</p>';
 							}
 							mysqli_close($conn);
 						 ?>	
@@ -99,16 +86,11 @@
 			</div>
 		</section>
 
-
-
-		
-		
-
 	</div>
-	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/jquery.fitvids.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/autoriz.js"></script>
+	<script src="../js/jquery-2.1.4.min.js"></script>
+	<script src="../js/jquery.fitvids.js"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/autoriz.js"></script>
 
 </body>
 </html>

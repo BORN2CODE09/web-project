@@ -12,6 +12,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/call.css">
 	<link rel="stylesheet" href="css/gallery.css">
+	<link rel="stylesheet" href="css/login.css">
 </head>
 <body id="home">
 	<div class="wrapper"> <!--Main wrapper-->
@@ -43,22 +44,83 @@
 					</div>
 
 					<ul class="navigation show-mobile-nav">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="details.html">Details</a></li>
-						<li><a href="items.php">Assortment</a></li>
-						<li><a href="gallery.html">Gallery</a></li>
+						<li><a href="index.php">Home</a></li>
+						<li><a href="details.php">Details</a></li>
+						<li><a href="items.php?page=1">Assortment</a></li>
+						<li><a href="gallery.php">Gallery</a></li>
 						<li><a href="#contacts">Contacts</a></li>
-						<li class="click-login">
-							<a href="#autorization">Log In</a>
-							<div class="dropdown-login">
-								<form action="">
-									<input type="text" placeholder="Enter your login"> <br>
-									<input type="password" placeholder="Enter your password"> <br>
-									<input type="submit" value="Login">
-								</form>
-							</div>
-						</li>
-						<li class="clickAutor"><a href="#autorization">Sign Up</a></li>
+						<?php
+							session_start();
+							//session_destroy();
+							if(!isset($_SESSION["login"])){
+								//header("location: add.php");
+								echo '<li class="click-login">';
+								echo '<a href="#autorization">Log In</a>';
+								echo '<div class="dropdown-login">';
+								echo '<form action="index.php" method="post">';
+								echo '<input id="login" type="text" name="login" placeholder="Enter your login:" minlength="5"> <br>';
+								echo '<input id="pass" type="password" name="password" placeholder="Enter your password:" minlength="6"> <br>';
+								echo '<button onclick="myFunction()" style="border:2px solid green; text-align: center; width:100%; height: 25px; font-weight:bold;">Login</button>';
+								echo '<p id="onError"></p>';
+								echo '</form>';
+
+								echo '<li class="clickAutor click-login">';
+								echo '<a href="#autorization">Sign Up</a>';
+								echo '<div class="dropdown-login">';
+								echo '<form action="register.php" method="post">';
+								echo '<input type="text" name="rName" placeholder="Enter your name:"> <br>';
+								echo '<input type="text" name="rLogin" placeholder="Enter your login:"> <br>';
+								echo '<input type="password" name="rPass" placeholder="Enter your password:"> <br>';
+								echo '<input type="text" name="rNum" placeholder="Enter your phone num:"> <br>';
+								echo '<input type="text" name="rAddr" placeholder="Enter your address:"> <br>';
+								echo '<input type="submit" value="Register">';
+								echo '</form>';
+								echo '</div>';
+								echo '</li>';
+								$conn = new mysqli("localhost", "root","", "watch2018");
+									if (mysqli_connect_errno()) {
+									    printf("Соединение --: %s\n", mysqli_connect_error());
+									    exit();
+									}
+									if(isset($_SESSION["login"])){
+										//header("location: add.php");
+									}
+
+									$Name = "";
+									$Pass = "";
+									if (isset($_POST['login'])){
+									$Name = $_POST['login'];
+									if (isset($_POST['password'])){
+										$Pass = $_POST['password'];
+									}
+									$query = "SELECT * FROM `buyers` where `login`='$Name' and `password`='$Pass' limit 1";
+									$result = $conn->query($query);
+									if(mysqli_num_rows($result) == 1){
+										$_SESSION["login"] = $Name;
+										$row = $result->fetch_assoc();
+										echo '<p style="text-align: center"">Logged In!</p>';
+										header("location: index.php");
+
+									}
+									else{
+										echo '<p style="text-align: center"">WRONG PASSWORD <br> OR  <br> LOGIN!</p>';
+									}
+
+									if (!$result) {
+									    trigger_error('Invalid query: ' . $conn->error);
+									}
+								}
+								
+								mysqli_close($conn);
+								echo '</div>';
+								echo '</li>';		
+							}
+							else{
+								echo '<li class="click-login">';
+								echo '<a href="admin/signOutUser.php">Sign Out</a>';
+								echo '</li>';
+							}
+						?>
 					</ul>
 				</nav>
 			</div>

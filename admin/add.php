@@ -21,7 +21,7 @@
 			<div class="section_container">
 				<nav>
 					<div class="logo">
-						<a href="index.html"><img src="../img/miniLogo.png" alt="logo"></a>
+						<a href="../index.html"><img src="../img/miniLogo.png" alt="logo"></a>
 					</div>
 					<div class="mobile-nav-icon">
 						<span class="">MENU</span>
@@ -32,17 +32,7 @@
 						<li><a href="delete.php">Delete Watch</a></li>
 						<li><a href="managers.php">Managers</a></li>
 						<li><a href="blackFriday.php">Black Friday</a></li>
-						<li class="click-login">
-							<a href="#autorization">Log In</a>
-							<div class="dropdown-login">
-								<form action="">
-									<input type="text" placeholder="Enter your login"> <br>
-									<input type="password" placeholder="Enter your password"> <br>
-									<input type="submit" value="Login">
-								</form>
-							</div>
-						</li>
-						<li class="clickAutor"><a href="#autorization">Sign Up</a></li>
+						<li><a href="signOut.php">Sign Out</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -52,6 +42,13 @@
 			<div class="crud-wrapper mt">
 				<div class="add crud">
 					<h3>Add new watch</h3>
+					<?php 
+						session_start();
+						if($_SESSION["login"]){
+							$hi = $_SESSION["login"];
+							echo "<p>Hello, $hi</p>";
+						}
+					?>
 					<form action="add.php" method="post">
 						<input type="text" name="name" placeholder="Watch name:"> <br>
 						<input type="text" name="brand" placeholder="Brand:"> <br>
@@ -71,27 +68,28 @@
 							$addImage = "";
 							$addDescr = "";
 
+							//echo $_SESSION["login"] ."</br>";
+							//echo $_SESSION["priv"];
 							if (isset($_POST['name'])){
-								$addName = $_POST['name'];	
-							}
-							if (isset($_POST['brand'])){
-								$addBrand = $_POST['brand'];
-							}
-							if (isset($_POST['category'])){
-								$addCategory = $_POST['category'];
-							}
-							if (isset($_POST['image'])){
-								$addImage = $_POST['image'];
-							}
-							if (isset($_POST['descr'])){
-								$addDescr = $_POST['descr'];
-							}
+								$addName = $_POST['name'];
+								if (isset($_POST['brand'])){
+									$addBrand = $_POST['brand'];
+								}
+								if (isset($_POST['category'])){
+									$addCategory = $_POST['category'];
+								}
+								if (isset($_POST['image'])){
+									$addImage = $_POST['image'];
+								}
+								if (isset($_POST['descr'])){
+									$addDescr = $_POST['descr'];
+								}
 
-							$query = "INSERT INTO `watches-list`(`name`, `brand`, `category`, `img`, `descr`) VALUES ('$addName','$addBrand','$addCategory','$addImage','$addDescr')";
-							$result = $conn->query($query);
-							
-							if (!$result) {
-							    trigger_error('Invalid query: ' . $conn->error);
+								$query = "INSERT INTO `watches-list`(`name`, `brand`, `category`, `img`, `descr`) VALUES ('$addName','$addBrand','$addCategory','$addImage','$addDescr')";
+								$result = $conn->query($query);
+								if (!$result) {
+								    trigger_error('Invalid query: ' . $conn->error);
+								}
 							}
 							mysqli_close($conn);
 						 ?>		
@@ -100,16 +98,11 @@
 			</div>
 		</section>
 
-
-
-		
-		
-
 	</div>
-	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/jquery.fitvids.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/autoriz.js"></script>
+	<script src="../js/jquery-2.1.4.min.js"></script>
+	<script src="../js/jquery.fitvids.js"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/autoriz.js"></script>
 
 </body>
 </html>

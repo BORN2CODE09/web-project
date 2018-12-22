@@ -11,53 +11,100 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/call.css">
+	<link rel="stylesheet" href="css/login.css">
 </head>
 <body id="home">
 	<div class="wrapper"> <!--Main wrapper-->
-		<!-- <div class="popup_login">
-			<div class="form_wrapper">
-				<form action="autorization.php" method="post">
-					<input type="text" name="mail">
-					<input type="password" name="password">
-					<input type="submit" value="Enter">
-				</form>
-				<p>Not registered yet?</p>
-				<form action="registration.php" method="post">
-					<input type="text" name="mail">
-					<input type="password" name="password">
-					<input type="submit" value="Register">
-				</form>
-			</div>
-		</div> -->
 		<header> <!--Header-->
 			<a href="tel:+77759527800" id="popup__toggle" onclick="return false;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle" style="transform-origin: center;"><div class="img-circleblock" style="transform-origin: center;"></div></div></a>
 
 			<div class="section_container">
 				<nav>
 					<div class="logo">
-						<a href="index.html"><img src="img/miniLogo.png" alt="logo"></a>
+						<a href="index.php"><img src="img/miniLogo.png" alt="logo"></a>
 					</div>
 					<div class="mobile-nav-icon">
 						<span class="">MENU</span>
 					</div>
 
 					<ul class="navigation show-mobile-nav">
-						<li><a href="index.html">Home</a></li>
-						<li><a href="details.html">Details</a></li>
+						<li><a href="index.php">Home</a></li>
+						<li><a href="details.php">Details</a></li>
 						<li><a href="items.php?page=1">Assortment</a></li>
-						<li><a href="gallery.html">Gallery</a></li>
+						<li><a href="gallery.php">Gallery</a></li>
 						<li><a href="#contacts">Contacts</a></li>
-						<li class="click-login">
-							<a href="#autorization">Log In</a>
-							<div class="dropdown-login">
-								<form action="">
-									<input type="text" placeholder="Enter your login"> <br>
-									<input type="password" placeholder="Enter your password"> <br>
-									<input type="submit" value="Login">
-								</form>
-							</div>
-						</li>
-						<li class="clickAutor"><a href="#autorization">Sign Up</a></li>
+						<?php
+							session_start();
+							//session_destroy();
+							if(!isset($_SESSION["login"])){
+								//header("location: add.php");
+								echo '<li class="click-login">';
+								echo '<a href="#autorization">Log In</a>';
+								echo '<div class="dropdown-login">';
+								echo '<form action="index.php" method="post">';
+								echo '<input id="login" type="text" name="login" placeholder="Enter your login:" minlength="5"> <br>';
+								echo '<input id="pass" type="password" name="password" placeholder="Enter your password:" minlength="6"> <br>';
+								echo '<button onclick="myFunction()" style="border:2px solid green; text-align: center; width:100%; height: 25px; font-weight:bold;">Login</button>';
+								echo '<p id="onError"></p>';
+								echo '</form>';
+
+								echo '<li class="clickAutor click-login">';
+								echo '<a href="#autorization">Sign Up</a>';
+								echo '<div class="dropdown-login">';
+								echo '<form action="register.php" method="post">';
+								echo '<input type="text" name="rName" placeholder="Enter your name:"> <br>';
+								echo '<input type="text" name="rLogin" placeholder="Enter your login:"> <br>';
+								echo '<input type="password" name="rPass" placeholder="Enter your password:"> <br>';
+								echo '<input type="text" name="rNum" placeholder="Enter your phone num:"> <br>';
+								echo '<input type="text" name="rAddr" placeholder="Enter your address:"> <br>';
+								echo '<input type="submit" value="Register">';
+								echo '</form>';
+								echo '</div>';
+								echo '</li>';
+								$conn = new mysqli("localhost", "root","", "watch2018");
+									if (mysqli_connect_errno()) {
+									    printf("Соединение --: %s\n", mysqli_connect_error());
+									    exit();
+									}
+									if(isset($_SESSION["login"])){
+										//header("location: add.php");
+									}
+
+									$Name = "";
+									$Pass = "";
+									if (isset($_POST['login'])){
+									$Name = $_POST['login'];
+									if (isset($_POST['password'])){
+										$Pass = $_POST['password'];
+									}
+									$query = "SELECT * FROM `buyers` where `login`='$Name' and `password`='$Pass' limit 1";
+									$result = $conn->query($query);
+									if(mysqli_num_rows($result) == 1){
+										$_SESSION["login"] = $Name;
+										$row = $result->fetch_assoc();
+										echo '<p style="text-align: center"">Logged In!</p>';
+										header("location: index.php");
+
+									}
+									else{
+										echo '<p style="text-align: center"">WRONG PASSWORD <br> OR  <br> LOGIN!</p>';
+									}
+
+									if (!$result) {
+									    trigger_error('Invalid query: ' . $conn->error);
+									}
+								}
+								
+								mysqli_close($conn);
+								echo '</div>';
+								echo '</li>';		
+							}
+							else{
+								echo '<li class="click-login">';
+								echo '<a href="admin/signOutUser.php">Sign Out</a>';
+								echo '</li>';
+							}
+						?>
 					</ul>
 				</nav>
 			</div>
@@ -97,8 +144,20 @@
 						</div>
 					</div>
 
+
 					<div class="btn_container">
-						<a href="#" class="btn btn_default btn_orange btn_shadow">$220 Buy Now</a>
+						<a href="order.docx" class="btn btn_default btn_orange btn_shadow">$220 Buy Now</a>
+						<?php
+						  /*header("Content-type: application/vnd.ms-word");
+						  header("Content-Disposition: attachment;Filename=document_name.doc");    
+						  echo "<html>";
+						  echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=Windows-1252\">";
+						  echo "<body>";
+						  echo "<b>Your Order Successful</b>";
+						  echo "Dear, '$_SESSION["rName"]'";
+						  echo "</body>";
+						  echo "</html>";*/
+						?>
 					</div>
 					<p class="small">You will receive your delivery within 5 working days.</p>
 				</div>
@@ -235,10 +294,11 @@
 		</section> <!-- Footer -->
 
 	</div>
+
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<script src="js/jquery.fitvids.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/autoriz.js"></script>
-
+	<script src="js/loginChecker.js"></script>
 </body>
 </html>

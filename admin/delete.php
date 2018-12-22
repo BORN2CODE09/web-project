@@ -30,19 +30,9 @@
 					<ul class="navigation show-mobile-nav">
 						<li><a href="add.php">Add Watch</a></li>
 						<li><a href="delete.php">Delete Watch</a></li>
-						<li><a href="#">Managers</a></li>
+						<li><a href="managers.php">Managers</a></li>
 						<li><a href="blackFriday.php">Black Friday</a></li>
-						<li class="click-login">
-							<a href="#autorization">Log In</a>
-							<div class="dropdown-login">
-								<form action="">
-									<input type="text" placeholder="Enter your login"> <br>
-									<input type="password" placeholder="Enter your password"> <br>
-									<input type="submit" value="Login">
-								</form>
-							</div>
-						</li>
-						<li class="clickAutor"><a href="#autorization">Sign Up</a></li>
+						<li><a href="signOut.php">Sign Out</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -69,21 +59,20 @@
 						
 							if (isset($_POST['nameD'])){
 								$addName = $_POST['nameD'];	
-							}
-							if (isset($_POST['brandD'])){
-								$addBrand = $_POST['brandD'];
-							}
-							if (isset($_POST['categoryD'])){
-								$addCategory = $_POST['categoryD'];
-							}
-							
-							
-							$query = "DELETE FROM `watches-list` WHERE `name`='$addName' and `brand`='$addBrand' and `category`='$addCategory'";
-							//echo $query;
-							$result = $conn->query($query);
-
-							if (!$result) {
-							    trigger_error('Invalid query: ' . $conn->error);
+								if (isset($_POST['brandD'])){
+									$addBrand = $_POST['brandD'];
+								}
+								if (isset($_POST['categoryD'])){
+									$addCategory = $_POST['categoryD'];
+								}
+								
+								
+								$query = "DELETE FROM `watches-list` WHERE `name`='$addName' and `brand`='$addBrand' and `category`='$addCategory'";
+								//echo $query;
+								$result = $conn->query($query);
+								if (!$result) {
+								    trigger_error('Invalid query: ' . $conn->error);
+								}
 							}
 							mysqli_close($conn);
 						 ?>
@@ -119,10 +108,10 @@
 		
 
 	</div>
-	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/jquery.fitvids.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/autoriz.js"></script>
+	<script src="../js/jquery-2.1.4.min.js"></script>
+	<script src="../js/jquery.fitvids.js"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/autoriz.js"></script>
 
 </body>
 </html>

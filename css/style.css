@@ -101,6 +101,9 @@ img {
 .mt-all{
   text-align: center;
 }
+.dropdown-login{
+  position: absolute; border: 2px solid black; border-radius: 8px; padding: 35px;
+}
 .border-item{
   border: 2px solid red;
   padding: 10px;

@@ -11,18 +11,32 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/call.css">
-	<link rel="stylesheet" href="css/paginationStyle.css">
-	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/details.css">
 </head>
 <body id="home">
-	<div class="wrapper">
+	<div class="wrapper"> <!--Main wrapper-->
+		<!-- <div class="popup_login">
+			<div class="form_wrapper">
+				<form action="autorization.php" method="post">
+					<input type="text" name="mail">
+					<input type="password" name="password">
+					<input type="submit" value="Enter">
+				</form>
+				<p>Not registered yet?</p>
+				<form action="registration.php" method="post">
+					<input type="text" name="mail">
+					<input type="password" name="password">
+					<input type="submit" value="Register">
+				</form>
+			</div>
+		</div> -->
 		<header> <!--Header-->
 			<a href="tel:+77759527800" id="popup__toggle" onclick="return false;"><div class="circlephone" style="transform-origin: center;"></div><div class="circle-fill" style="transform-origin: center;"></div><div class="img-circle" style="transform-origin: center;"><div class="img-circleblock" style="transform-origin: center;"></div></div></a>
 
 			<div class="section_container">
 				<nav>
 					<div class="logo">
-						<a href="index.php"><img src="img/miniLogo.png" alt="logo"></a>
+						<a href="index.html"><img src="img/miniLogo.png" alt="logo"></a>
 					</div>
 					<div class="mobile-nav-icon">
 						<span class="">MENU</span>
@@ -30,9 +44,9 @@
 
 					<ul class="navigation show-mobile-nav">
 						<li><a href="index.php">Home</a></li>
-						<li><a href="details.php">Details</a></li>
+						<li><a href="details.html">Details</a></li>
 						<li><a href="items.php?page=1">Assortment</a></li>
-						<li><a href="gallery.php">Gallery</a></li>
+						<li><a href="gallery.html">Gallery</a></li>
 						<li><a href="#contacts">Contacts</a></li>
 						<?php
 							session_start();
@@ -111,114 +125,68 @@
 			</div>
 		</header> <!--Header-->
 		
-
-		<section id="features" class="features"> 
-			<div class="heading" style="margin-top: 75px; font-family: 'Kaushan Script';">
-				<h2>Watches</h1>
+		<section class="details">
+			<div class="heading titleD">
+				<h1>A time Store</h1>
 			</div>
-			<div style="display: flex; justify-content: space-around;">
-				<div class="styled-select yellow rounded margin-sel" style="margin-right: 6px;">
-				  <select>
-				  	<option>All brands</option>
-				    <option>Casio</option>
-				    <option>Hublot</option>
-				    <option>Tissot</option>
-				  </select>
+			<div class="equal-height">
+				<div class="item">
+					<img src="img/conveyor-512.png" alt="">
+					<h2>MANUFACTURE</h2>
+					<p>Here, the whole range of professions and production processes necessary for the design and manufacture of Hublot watches is assembled under one roof.</p>
 				</div>
-				<div class="styled-select yellow rounded margin-sel">
-				  <select>
-				  	<option>All types</option>
-				    <option>Sport</option>
-				    <option>Daily</option>
-				    <option>Classic</option>
-				  </select>
+				<div class="item">
+					<img src="img/mechanism-icon-png-5.png" alt="">
+					<h2>MECHANISMS</h2>
+					<p>The integration of production processes at the watch manufactory reaches the top when it becomes possible to equip the manufactured watch with its own developed watch movements.</p>
+				</div>
+				<div class="item">
+					<img src="img/cement_icon_194146.png" alt="">
+					<h2>CONCRETE</h2>
+					<p>Work with materials - be it an improvement in the strength and aesthetic properties of traditional precious metal alloys or the invention of completely new composites.</p>
 				</div>
 			</div>
-			<div class="search" style="display: flex; margin-bottom: 15px;">
-				<form action="zxc">
-					<input type="text" placeholder="Find by Brand" style="border-radius: 10px; padding: 6px;">
-					<button type="submit" style="background-color: #eec111; padding: 8px; border-radius: 20px;">Search</button>
-				</form>
+			<div class="heading">
+				<h1>Materials</h1>
+			</div> 	
+			<div class="materials-a">
+				<div class="item2">
+					<img src="img/hublot-materials-aluminium.png" alt="">
+					<h2>ALUMINUM</h4>
+					<p>VERY SOFT METAL AND DURABILITY</p>
+				</div>
+				<div class="item2">
+					<img src="img/hublot-materials-carbon.png" alt="">
+					<h2>CARBON</h4>
+					<p>EASY AS PER AND STRENGTH AS STEEL</p>
+				</div>
+				<div class="item2">
+					<img src="img/hublot-materials-ceramic.png" alt="">
+					<h2>CERAMICS</h4>
+					<p>EXCELLENT HARDNESS AND DURABILITY</p>
+				</div>
+				<div class="item2">
+					<img src="img/hublot-materials-kgold.png" alt="">
+					<h2>GOLD</h4>
+					<p>EXCLUSIVE RED GOLD COLOR, TRADITIONAL RED GOLD 5N.</p>
+				</div>
 			</div>
-			
-			<div class="section_container all-cent">
-				<ul>
-					<?php
-						$conn = new mysqli("localhost","root","","watch2018");
-						if (mysqli_connect_errno()) {
-						    printf("Соединение --: %s\n", mysqli_connect_error());
-						    exit();
-						}
-						
-						$page = $_GET["page"];
-						if($page == "" || $page == "1"){
-							$page1 = 0;
-						}
-						else{
-							$page1 = ($page*8)-8;
-						}
-						$query = "SELECT * FROM `watches-list` limit $page1,8";
-						$result = $conn->query($query);
-						if (!$result) {
-						    trigger_error('Invalid query: ' . $conn->error);
-						}
-						if ($result->num_rows > 0){
-							$cnt = 0;
-							while($row = $result->fetch_assoc()){
-								$cnt = $cnt + 1;
-								echo "<li>";
-								echo "<i>";
-								echo '<img src="'. $row["img"]. '" alt="">';
-								echo "</i>";
-								echo "<h5>". $row["name"] ."</h5>";
-								echo "<p>". $row["descr"] . "</p>";
-								echo "</li>";
-								if($cnt == 4){
-									echo "</ul>";
-									echo "</div>";
-									echo '<div class="section_container all-cent mt-all">';
-									echo "<ul>";
-									$cnt = 0;
-								}
-							}	
-							mysqli_free_result($result);
-						}
-						mysqli_close($conn);
-					 ?>			
-				</ul>
+			<div class="wrapper-details">
+				
+				<div>
+					<p>Pure aluminum is an extremely soft metal. In industry, aluminum alloys with copper, magnesium, zinc, manganese and titanium are used.</p>
+					<p>The crust consists of about 18.5% carbon. When creating a Hublot watch from carbon, carbon fiber is produced. Then this fiber is woven and impregnated with resin; The resulting material is used for the manufacture of watch cases and some parts of the clock mechanism. The weight of carbon fiber is less than 2.6 g / cm3.</p>
+				</div>
 			</div>
-		</section> 
-
-		<div class="pagination-page">
-			<ul class="pagination modal-4">
-			  <?php
-			    $conn = new mysqli("localhost","root","","watch2018");
-				if (mysqli_connect_errno()) {
-				    printf("Соединение --: %s\n", mysqli_connect_error());
-				    exit();
-				}
-				$query = "SELECT * FROM `watches-list`";
-				$result = $conn->query($query);
-				if (!$result) {
-				    trigger_error('Invalid query: ' . $conn->error);
-				}
-			  	$cou = mysqli_num_rows($result);
-			  	$a = $cou/8;
-			  	$a = ceil($a);
-			  	for ($i=1; $i<=$a; $i++){
-			  		?> <a href="items.php?page=<?php echo $i;?>"><?php echo $i?></a><?php
-			  	}
-			  ?>
-			</ul>
-		</div>
+		</section>
 
 		
-		<section id="contacts" class="contacts"> 
+		<section id="contacts" class="contacts"> <!-- Contacts -->
 			<div class="heading">
 				<h1>Contacts</h1>
 			</div> 		
 			<div class="section_container">
-				<form action="login.php">
+				<form action="action.php">
 					<p>Enter Yor Name</p>
 					<input type="text">
 					<p>Enter Yor Email</p>
